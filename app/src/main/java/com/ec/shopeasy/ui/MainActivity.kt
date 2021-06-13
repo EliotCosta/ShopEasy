@@ -7,6 +7,7 @@ import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -23,7 +24,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dataProvider: DataProvider
     private lateinit var btnLogin: Button
     private lateinit var btnSignup: Button
@@ -39,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+        btnLogin.setOnClickListener(this)
         val btnSignup = findViewById<Button>(R.id.btnSignup)
+        btnSignup.setOnClickListener(this)
         val imageMain = findViewById<ImageView>(R.id.imageMain)
         val picto = findViewById<ImageView>(R.id.pictogrammeMain)
 
@@ -109,5 +112,27 @@ class MainActivity : AppCompatActivity() {
         return true
 
 
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.btnLogin -> {
+
+                // vers LoginActivity
+
+                // Intent explicite
+                var versLoginActivity: Intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(versLoginActivity)
+            }
+
+            R.id.btnSignup -> {
+
+                // vers SignupActivity
+
+                // Intent explicite
+                var versSignupActivity: Intent = Intent(this@MainActivity, SignupActivity::class.java)
+                startActivity(versSignupActivity)
+            }
+        }
     }
 }
