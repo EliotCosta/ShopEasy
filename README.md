@@ -2,7 +2,10 @@
 
 ## Git :
 
-git pull
-git add *
-git commit -m "Nom du commit"
-git push
+`git pull`
+
+`git add *`
+
+`git commit -m "Nom du commit"`
+
+`git push`
