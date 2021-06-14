@@ -39,7 +39,7 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
             val response = dataProvider.getProductsCategoriesAndProducts()
             response.enqueue(object : Callback<ProductsResponse> {
                 override fun onResponse(call: Call<ProductsResponse>, response: Response<ProductsResponse>) {
-                    // Fonction appellée en cas de succes
+                    // Fonction appelée en cas de succes
                     val data : ProductsResponse? = response.body()
                     Log.i("PMR", "API Response : " + response.raw().toString())
 
@@ -76,10 +76,12 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
     override fun onListClicked(list: ProductCategories) {
 
         val bdl = Bundle()
-        //TODO passer l'objet ProductCategory choisi dans un bundle (serialization ?)
-        //bdl.putParcelable("category",list)
+        val nameOfProducts = list.products.map {prod ->  prod.name}
+        val productIds = list.products.map {prod ->  prod.id}
+        bdl.putString("name",list.name)
+        bdl.putStringArrayList("productNames",nameOfProducts as ArrayList)
+        bdl.putIntegerArrayList("productIds",productIds as ArrayList)
 
-        // vers la ShowListActivity correspondante
         val toShow = Intent(this@CategoriesActivity, ProductsActivity::class.java)
         toShow.putExtras(bdl)
         startActivity(toShow)

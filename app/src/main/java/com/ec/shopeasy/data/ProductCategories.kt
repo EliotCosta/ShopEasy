@@ -3,6 +3,7 @@ package com.ec.shopeasy.data
 import com.ec.shopeasy.data.Product
 import com.google.gson.annotations.SerializedName
 
+
 data class ProductCategories(
 
     @SerializedName("id")
