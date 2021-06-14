@@ -16,6 +16,8 @@
         <activity android:name=".ui.LocalisationActivity"></activity>
         <activity android:name=".ui.SignupActivity" />
         <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.CategoriesActivity" />
+        <activity android:name=".ui.ProductsActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

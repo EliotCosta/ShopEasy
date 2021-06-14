@@ -10,6 +10,6 @@ data class ProductsResponse (
     @SerializedName("status")
     var status: Int,
 
-    @SerializedName("shop")
+    @SerializedName("productCategories")
     var productCategories: List<ProductCategories>
 )
