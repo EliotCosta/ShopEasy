@@ -11,5 +11,5 @@ data class ProductsResponse (
     var status: Int,
 
     @SerializedName("shop")
-    var productCetegories: List<ProductCategories>
+    var productCategories: List<ProductCategories>
 )
