@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
 import com.ec.shopeasy.api.response.ProductsResponse
+import com.ec.shopeasy.data.Product
 import com.ec.shopeasy.data.ProductCategories
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,7 @@ import retrofit2.Response
 class CategoriesActivity: AppCompatActivity(), OnListClickListener {
 
     private lateinit var dataProvider: DataProvider
-    private lateinit var products : List<ProductCategories>
+    private lateinit var categories : List<ProductCategories>
 
     private val activityScope = CoroutineScope(
         SupervisorJob() + Dispatchers.Main
@@ -44,8 +45,8 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
 
                     if (data?.success == true) {
                         // test si l'api renvoie bien success = true, si ce n'est pas le cas, il y a un problème de requete
-                        products = (response.body() as ProductsResponse).productCategories
-                        Log.i("PMR", products.toString())
+                        categories = (response.body() as ProductsResponse).productCategories
+                        Log.i("PMR", categories.toString())
 
                     } else {
                         error("Network error")
@@ -63,7 +64,7 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
 
 
         recyclerView = findViewById(R.id.recycler_cat)
-        recyclerView.adapter = CategoriesAdapter(products, this)
+        recyclerView.adapter = CategoriesAdapter(categories, this)
     }
 
     fun error(message : String?) {
@@ -75,7 +76,8 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
     override fun onListClicked(list: ProductCategories) {
 
         val bdl = Bundle()
-        bdl.putString("id", list.id.toString())
+        //TODO passer l'objet ProductCategory choisi dans un bundle (serialization ?)
+        //bdl.putParcelable("category",list)
 
         // vers la ShowListActivity correspondante
         val toShow = Intent(this@CategoriesActivity, ProductsActivity::class.java)

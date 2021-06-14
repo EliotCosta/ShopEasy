@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         btnLogin2.setOnClickListener(this)
         val btnShow = findViewById<Button>(R.id.btnShow)
         btnShow.setOnClickListener(this)
-        val image = findViewById<ImageView>(R.id.imageView)
+        val image = findViewById<ImageView>(R.id.item_img)
         val pseudo = findViewById<EditText>(R.id.pseudo)
         val mdp = findViewById<EditText>(R.id.mdp)
 
