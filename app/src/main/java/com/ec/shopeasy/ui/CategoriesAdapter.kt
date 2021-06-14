@@ -1,7 +1,6 @@
 package com.ec.shopeasy.ui
 
-import android.icu.number.NumberFormatter.with
-import android.icu.number.NumberRangeFormatter.with
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import com.ec.shopeasy.R
 import com.ec.shopeasy.data.ProductCategories
 import com.squareup.picasso.Picasso
 
-class CategoriesAdapter (
-    private val dataset: List<ProductCategories>,
-    private val listClickListener: OnListClickListener): RecyclerView.Adapter<CategoriesAdapter.ListViewHolder>() {
+class CategoriesAdapter(
+        private val dataset: List<ProductCategories>,
+        private val listClickListener: OnListClickListener): RecyclerView.Adapter<CategoriesAdapter.ListViewHolder>() {
 
     class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val imgView: ImageView = view.findViewById(R.id.img_cat)
@@ -29,12 +28,13 @@ class CategoriesAdapter (
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val list = dataset[position]
+        val cat = dataset[position]
 
-        Picasso.get().load(list.urlImg).into(holder.imgView)
-        holder.textView.text = list.name
+        Picasso.get().load(cat.urlImg).into(holder.imgView)
+
+        holder.textView.text = cat.name
         holder.view.setOnClickListener {
-            listClickListener.onListClicked(list)
+            listClickListener.onListClicked(cat)
         }
     }
 

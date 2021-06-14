@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
 import com.ec.shopeasy.api.response.ProductsResponse
-import com.ec.shopeasy.data.Product
 import com.ec.shopeasy.data.ProductCategories
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,17 +24,17 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
     private lateinit var dataProvider: DataProvider
     private lateinit var categories : List<ProductCategories>
 
-    private val activityScope = CoroutineScope(
-        SupervisorJob() + Dispatchers.Main
-    )
+    private val activityScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
-        dataProvider = DataProvider()
 
+        // val bdl = this.intent.extras
+
+        dataProvider = DataProvider()
         activityScope.launch {
             val response = dataProvider.getProductsCategoriesAndProducts()
             response.enqueue(object : Callback<ProductsResponse> {
@@ -45,8 +45,9 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
 
                     if (data?.success == true) {
                         // test si l'api renvoie bien success = true, si ce n'est pas le cas, il y a un problème de requete
-                        categories = (response.body() as ProductsResponse).productCategories
+                        var categories = data.productCategories
                         Log.i("PMR", categories.toString())
+                        listMaker(categories)
 
                     } else {
                         error("Network error")
@@ -55,17 +56,24 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
                 }
 
                 override fun onFailure(call: Call<ProductsResponse>, t: Throwable) {
-                    // Fonction appellée en cas d'échec
+                    // Fonction appelée en cas d'échec
                     error(t.message)
                 }
             })
+
+
         }
 
 
 
-        recyclerView = findViewById(R.id.recycler_cat)
-        recyclerView.adapter = CategoriesAdapter(categories, this)
     }
+
+    fun listMaker(dataset: List<ProductCategories>) {
+        recyclerView = findViewById(R.id.recycler_cat)
+        recyclerView.adapter = CategoriesAdapter(dataset, this@CategoriesActivity)
+        recyclerView.layoutManager = LinearLayoutManager(this@CategoriesActivity)
+    }
+
 
     fun error(message : String?) {
         Log.i("PMR", message.orEmpty())
