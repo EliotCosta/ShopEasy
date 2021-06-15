@@ -1,8 +1,12 @@
 package com.ec.shopeasy.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +15,7 @@ import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
 import com.ec.shopeasy.api.response.ProductsResponse
 import com.ec.shopeasy.data.ProductCategories
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -19,10 +24,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CategoriesActivity: AppCompatActivity(), OnListClickListener {
+class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClickListener {
 
+    private lateinit var name : String
     private lateinit var dataProvider: DataProvider
     private lateinit var categories : List<ProductCategories>
+
+    private lateinit var sp: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+    private lateinit var products: String
+    private lateinit var gson: Gson
 
     private val activityScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
@@ -32,7 +43,20 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
 
-        // val bdl = this.intent.extras
+        sp = PreferenceManager.getDefaultSharedPreferences(this)
+        editor = sp.edit()
+        gson=Gson()
+
+        val bdl = this.intent.extras
+        //TODO passer le nom de l'utilisateur courant depuis l'activité prec
+        //name= bdl?.get("name") as String
+        name="Mathis"
+
+
+        val btn_panier = findViewById<Button>(R.id.btn_vers_liste)
+        btn_panier.setOnClickListener(this)
+        val vider_panier = findViewById<Button>(R.id.btn_empty)
+        vider_panier.setOnClickListener(this)
 
         dataProvider = DataProvider()
         activityScope.launch {
@@ -45,8 +69,8 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
 
                     if (data?.success == true) {
                         // test si l'api renvoie bien success = true, si ce n'est pas le cas, il y a un problème de requete
-                        var categories = data.productCategories
-                        Log.i("PMR", categories.toString())
+                        categories = data.productCategories
+                        Log.i("PMR","catégories importées")
                         listMaker(categories)
 
                     } else {
@@ -82,16 +106,43 @@ class CategoriesActivity: AppCompatActivity(), OnListClickListener {
 
 
     override fun onListClicked(list: ProductCategories) {
-
         val bdl = Bundle()
-        val nameOfProducts = list.products.map {prod ->  prod.name}
-        val productIds = list.products.map {prod ->  prod.id}
-        bdl.putString("name",list.name)
-        bdl.putStringArrayList("productNames",nameOfProducts as ArrayList)
-        bdl.putIntegerArrayList("productIds",productIds as ArrayList)
+        products = gson.toJson(list)
+        bdl.putString("products",products)
+        bdl.putString("name",name)
+
+        //val nameOfProducts = list.products.map {prod ->  prod.name}
+        //val productIds = list.products.map {prod ->  prod.id}
+        //bdl.putString("name",list.name)
+        //bdl.putStringArrayList("productNames",nameOfProducts as ArrayList)
+        //bdl.putIntegerArrayList("productIds",productIds as ArrayList)
 
         val toShow = Intent(this@CategoriesActivity, ProductsActivity::class.java)
         toShow.putExtras(bdl)
         startActivity(toShow)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_vers_liste -> {
+                val bdl = Bundle()
+                bdl.putString("name",name)
+
+                //TODO passage à activité Panier
+
+                Log.i("PMR","activité suivante")
+                Log.i("PMR",name+" : "+sp.getString(name,"{\"name\": $name, \"list\": []}").toString())
+
+                //val toShow = Intent(this@ProductsActivity, Panier::class.java)
+                //toShow.putExtras(bdl)
+                //startActivity(toShow)
+            }
+            R.id.btn_empty -> {
+                editor.putString(name,"{\"name\": $name, \"list\": []}")
+                editor.commit()
+                Log.i("PMR","Panier vidé")
+                Toast.makeText(this@CategoriesActivity, "Panier vidé", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
