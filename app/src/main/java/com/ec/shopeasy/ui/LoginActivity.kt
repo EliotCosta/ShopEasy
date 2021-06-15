@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
                 // Intent explicite
                 //Normalement pas categories mais location dans ligne suivante
-                var versLocalisationActivity: Intent = Intent(this@LoginActivity, CategoriesActivity::class.java)
+                var versLocalisationActivity: Intent = Intent(this@LoginActivity, ChoixShopActivity::class.java)
                 startActivity(versLocalisationActivity)
             }
         }
