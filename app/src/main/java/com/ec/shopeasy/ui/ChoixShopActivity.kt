@@ -15,6 +15,7 @@ import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
 import com.ec.shopeasy.api.response.ProductsResponse
 import com.ec.shopeasy.api.response.ShopsResponse
+import com.ec.shopeasy.data.Product
 import com.ec.shopeasy.data.ProductCategories
 import com.ec.shopeasy.data.Shop
 import com.squareup.picasso.Picasso
@@ -31,15 +32,18 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnItemClick
     private lateinit var dataProvider: DataProvider
     private val activityScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private lateinit var image: ImageView
-    private lateinit var btn_OK: Button
+    private lateinit var btn: Button
     private lateinit var recyclerView: RecyclerView
+    private lateinit var shops: List<Shop>
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choixshop)
 
-        btn_OK = findViewById<Button>(R.id.btn)
+        btn = findViewById<Button>(R.id.btn)
+        btn.setOnClickListener(this)
         image = findViewById<ImageView>(R.id.imageView)
         Picasso.get().load("https://i.ytimg.com/vi/A1Uv7eok7FU/maxresdefault.jpg").into(image)
 
@@ -55,7 +59,7 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnItemClick
 
                     if (data?.success == true) {
                         // test si l'api renvoie bien success = true, si ce n'est pas le cas, il y a un problème de requete
-                        var shops = data.shops
+                        shops = data.shops
                         Log.i("PMR", shops.toString())
                         listMaker(shops)
 
@@ -116,6 +120,9 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnItemClick
     override fun onItemClicked(v: View, pos: Int) {
 
         val bdl = Bundle()
+        val shop = shops[pos]
+
+        bdl.putString("shop",shop.name)
 
 
 
