@@ -13,8 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopEasy"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.ChoixShopActivity"></activity>
-        <activity android:name=".ui.ShoppingGuidanceActivity"></activity>
+        <activity android:name=".ui.TransitionActivity"></activity>
+        <activity android:name=".ui.PanierActivity" />
+        <activity android:name=".ui.ChoixShopActivity" />
+        <activity android:name=".ui.ShoppingGuidanceActivity" />
         <activity android:name=".ui.SignupActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.CategoriesActivity" />
