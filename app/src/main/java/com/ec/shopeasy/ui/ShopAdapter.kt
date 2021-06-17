@@ -22,7 +22,7 @@ class ShopAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.product, parent, false)
+        val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.shop, parent, false)
 
         return ShopViewHolder(adapterLayout)
     }

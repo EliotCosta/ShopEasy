@@ -56,7 +56,6 @@ class ProductsActivity: AppCompatActivity(), View.OnClickListener, OnItemClickLi
     }
 
     override fun onItemClicked(v: View, pos: Int) {
-        val btn = v as Button
         val product = products[pos]
         getJson = sp.getString(name,"{\"name\": $name, \"list\": []}").toString()
         liste=gson.fromJson(getJson, ListeUser::class.java)

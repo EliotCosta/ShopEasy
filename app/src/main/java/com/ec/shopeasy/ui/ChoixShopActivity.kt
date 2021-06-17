@@ -96,7 +96,7 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
 
     fun listMaker(dataset: List<Shop>) {
         recyclerView = findViewById(R.id.recyclerViewShops)
-        //recyclerView.adapter = ShopAdapter(dataset, this@ChoixShopActivity)
+        recyclerView.adapter = ShopAdapter(dataset, this@ChoixShopActivity)
         recyclerView.layoutManager = LinearLayoutManager(this@ChoixShopActivity)
     }
 
