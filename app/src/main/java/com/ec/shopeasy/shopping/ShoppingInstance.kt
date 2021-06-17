@@ -1,5 +1,6 @@
 package com.ec.shopeasy.shopping
 
+import android.util.Log
 import com.ec.shopeasy.data.Product
 import com.ec.shopeasy.data.Shop
 import com.ec.shopeasy.data.ShopSection
@@ -41,12 +42,13 @@ class ShoppingInstance (
         }
 
         // Keep only sections where there are products to purchase
-        sectionsWithProducts.filter { section ->
+        var usedSectionsWithProducts = sectionsWithProducts.filter { section ->
             section.nbProducts > 0
         }
+        Log.i("PMR", usedSectionsWithProducts.toString())
 
 
-        sectionsWithProducts.forEach { section ->
+        usedSectionsWithProducts.forEach { section ->
             steps.add(ShoppingStep(
                     ShoppingStep.GO_TO,
                     section.name,

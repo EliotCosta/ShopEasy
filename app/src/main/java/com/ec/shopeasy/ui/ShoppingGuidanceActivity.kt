@@ -1,5 +1,6 @@
 package com.ec.shopeasy.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -158,7 +159,16 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
             showStepInfo()
         } else {
             // End of shopping
-            TODO("Go to next activity")
+
+            // Empty product list
+            val name = sp.getString("name", "name").toString()
+            var editor = sp.edit()
+            editor.putString(name, "{\"name\": \"${name}\", \"list\": []}")
+            editor.commit()
+
+            // Go to main activity
+            var nextAct: Intent = Intent(this@ShoppingGuidanceActivity, MainActivity::class.java)
+            startActivity(nextAct)
         }
 
     }
