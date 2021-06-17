@@ -16,7 +16,7 @@ interface Service {
     fun getShop(@Path("Id") shopId : Int) : Call<ShopResponse>
 
     @GET("shops/{Id}/sections")
-    fun getShopSections(@Path("Id") shopId : Int) : Call<ShopSectionsResponse>
+    suspend fun getShopSections(@Path("Id") shopId : Int) : ShopSectionsResponse
 
     @GET("products")
     fun getProducts() : Call<ProductsResponse>

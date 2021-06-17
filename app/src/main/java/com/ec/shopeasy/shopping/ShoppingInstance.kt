@@ -37,7 +37,7 @@ class ShoppingInstance (
                 it.productList.contains(product.id)
             }
             section?.shoppingProductList?.add(product)
-            section?.nbProducts?.inc()
+            section!!.nbProducts += 1
         }
 
         // Keep only sections where there are products to purchase
@@ -73,7 +73,8 @@ class ShoppingInstance (
 
     // Return next shopping step
     fun nextStep() : ShoppingStep {
-        return steps.get(currentStep.inc())
+        currentStep += 1
+        return steps.get(currentStep)
     }
 
     // Comparator used to order shop sections left to right, top to bottom
