@@ -6,25 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".ui.PanierActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_panier"
-        android:layout_width="323dp"
-        android:layout_height="445dp"
-        android:layout_marginTop="39dp"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="361dp"
+        android:layout_height="255dp"
+        android:layout_marginTop="76dp"
+        android:padding="16sp"
+        android:scrollbarSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.397"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_panier"
+            android:layout_width="323dp"
+            android:layout_height="445dp"
+            android:layout_marginTop="39dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.397"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_panier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="104dp"
         android:text="Validation du panier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_panier" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
     <TextView
         android:id="@+id/textView6"

@@ -130,7 +130,6 @@ class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClick
                 val bdl = Bundle()
                 bdl.putString("name",name)
 
-                //TODO passage à activité Panier
 
                 Log.i("PMR","activité suivante")
                 Log.i("PMR",name+" : "+sp.getString(name,"{\"name\": $name, \"list\": []}").toString())

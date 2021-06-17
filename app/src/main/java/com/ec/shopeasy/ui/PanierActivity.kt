@@ -37,6 +37,9 @@ class PanierActivity : AppCompatActivity(), View.OnClickListener {
 
         //on recupère les produits selectionnés dans SharedPreferences
 
+        val name = sp.getString("name", "name").toString()
+        panier = gson.fromJson(sp.getString(name, "{\"name\": \"\", \"list\": []}"), ListeUser::class.java).list
+
 
 
         recyclerView = findViewById(R.id.recycler_panier)
@@ -53,12 +56,7 @@ class PanierActivity : AppCompatActivity(), View.OnClickListener {
                 var nextAct: Intent = Intent(this@PanierActivity, ShoppingStartActivity::class.java)
                 startActivity(nextAct)
 
-                //val bdl = Bundle()
 
-                // Intent explicite
-                //var toShow: Intent = Intent(this@PanierActivity, ::class.java)
-                //versTransitionActivity.putExtras(bdl)
-                //startActivity(toShow)
             }
         }
     }
