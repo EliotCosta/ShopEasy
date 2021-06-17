@@ -133,9 +133,9 @@ class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClick
                 Log.i("PMR","activité suivante")
                 Log.i("PMR",name+" : "+sp.getString(name,"{\"name\": $name, \"list\": []}").toString())
 
-                //val toShow = Intent(this@ProductsActivity, Panier::class.java)
-                //toShow.putExtras(bdl)
-                //startActivity(toShow)
+                val toShow = Intent(this@CategoriesActivity, PanierActivity::class.java)
+                toShow.putExtras(bdl)
+                startActivity(toShow)
             }
             R.id.btn_empty -> {
                 editor.putString(name,"{\"name\": $name, \"list\": []}")

@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class DataProvider {
 
-    var baseUrl : String = "http://10.0.2.2/shopeasy-api/"
+    var baseUrl : String = "http://192.168.1.16/shopeasy-api/"
     private var retrofit : Retrofit
     private var service  : Service
 
