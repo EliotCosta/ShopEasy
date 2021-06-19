@@ -95,7 +95,7 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
 
             try {
                 // Get shop sections
-                shopSections = dataProvider.getShopSections(shop.id).sections
+                shopSections = dataProvider.getShopSections(shop.id)
                 Log.i("PMR", "ShopSections : ${shopSections.toString()}")
                 // Initiate navigation object
                 shoppingInstance = ShoppingInstance(shop, shopSections.toMutableList(), productCard.toMutableList())

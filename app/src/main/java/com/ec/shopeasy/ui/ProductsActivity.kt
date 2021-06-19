@@ -15,8 +15,9 @@ import com.ec.shopeasy.R
 import com.ec.shopeasy.data.ListeUser
 import com.ec.shopeasy.data.Product
 import com.ec.shopeasy.data.ProductCategories
+import com.ec.shopeasy.ui.adapters.OnItemClickListener
+import com.ec.shopeasy.ui.adapters.ProductAdapter
 import com.google.gson.Gson
-import java.util.ArrayList
 
 class ProductsActivity: AppCompatActivity(), View.OnClickListener, OnItemClickListener {
 

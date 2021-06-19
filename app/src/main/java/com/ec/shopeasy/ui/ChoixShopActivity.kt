@@ -9,26 +9,21 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
-import com.ec.shopeasy.api.response.ProductsResponse
-import com.ec.shopeasy.api.response.ShopsResponse
-import com.ec.shopeasy.data.Product
-import com.ec.shopeasy.data.ProductCategories
 import com.ec.shopeasy.data.Shop
+import com.ec.shopeasy.ui.adapters.OnShopClickListener
+import com.ec.shopeasy.ui.adapters.ShopAdapter
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.lang.Exception
 
 class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClickListener {
 
@@ -62,7 +57,14 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
 
         dataProvider = DataProvider()
         activityScope.launch {
-            val response = dataProvider.getShops()
+            try {
+                shops = dataProvider.getShops()
+                Log.i("PMR", shops.toString())
+                listMaker(shops)
+            } catch (e: Exception) {
+                error(e.message)
+            }
+            /**val response = dataProvider.getShops()
             response.enqueue(object : Callback<ShopsResponse> {
                 override fun onResponse(call: Call<ShopsResponse>, response: Response<ShopsResponse>) {
                     // Fonction appelée en cas de succes
@@ -85,7 +87,7 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
                     // Fonction appelée en cas d'échec
                     error(t.message)
                 }
-            })
+            })**/
 
 
         }

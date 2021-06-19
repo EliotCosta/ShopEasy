@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
 import com.ec.shopeasy.data.ListeUser
 import com.ec.shopeasy.data.Product
+import com.ec.shopeasy.ui.adapters.PanierAdapter
 import com.google.gson.Gson
 
 class PanierActivity : AppCompatActivity(), View.OnClickListener {

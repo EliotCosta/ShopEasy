@@ -4,6 +4,9 @@ import com.ec.shopeasy.api.response.ProductsResponse
 import com.ec.shopeasy.api.response.ShopResponse
 import com.ec.shopeasy.api.response.ShopSectionsResponse
 import com.ec.shopeasy.api.response.ShopsResponse
+import com.ec.shopeasy.data.ProductCategories
+import com.ec.shopeasy.data.Shop
+import com.ec.shopeasy.data.ShopSection
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,20 +27,20 @@ class DataProvider {
 
     }
 
-    fun getShops() : Call<ShopsResponse> {
-        return service.getShops()
+    suspend fun getShops() : List<Shop> {
+        return service.getShops().shops
     }
 
-    fun getShop(shopId: Int) : Call<ShopResponse> {
-        return service.getShop(shopId)
+    suspend fun getShop(shopId: Int) : Shop {
+        return service.getShop(shopId).shop
     }
 
-    suspend fun getShopSections(shopId: Int) : ShopSectionsResponse {
-        return service.getShopSections(shopId)
+    suspend fun getShopSections(shopId: Int) : List<ShopSection> {
+        return service.getShopSections(shopId).sections
     }
 
-    fun getProductsCategoriesAndProducts() : Call<ProductsResponse> {
-        return service.getProducts()
+    suspend fun getProductsCategoriesAndProducts() : List<ProductCategories> {
+        return service.getProducts().productCategories
     }
 
 

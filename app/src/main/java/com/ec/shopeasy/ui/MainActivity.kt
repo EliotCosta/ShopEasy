@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dataProvider: DataProvider
@@ -57,29 +58,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         dataProvider = DataProvider()
 
         activityScope.launch {
-            var response = dataProvider.getShops()
-            response?.enqueue(object : Callback<ShopsResponse> {
-                override fun onResponse(call: Call<ShopsResponse>, response: Response<ShopsResponse>) {
-                    // Fonction appellée en cas de succes
-                    var data : ShopsResponse? = response.body()
-                    Log.i("PMR", "API Response : " + response.raw().toString())
-
-                    if (data?.success == true) {
-                        // test si l'api renvoie bien success = true, si ce n'est pas le cas, il y a un problème de requete
-                        var shops : List<Shop> = (response.body() as ShopsResponse).shops
-                        Log.i("PMR", shops.toString())
-
-                    } else {
-                        error("Network error")
-                    }
-
-                }
-
-                override fun onFailure(call: Call<ShopsResponse>, t: Throwable) {
-                    // Fonction appellée en cas d'échec
-                    error(t.message)
-                }
-            })
+            try {
+                var shops : List<Shop> = dataProvider.getShops()
+                Log.i("PMR", shops.toString())
+            } catch (e: Exception) {
+                error(e.message)
+            }
         }
 
     }

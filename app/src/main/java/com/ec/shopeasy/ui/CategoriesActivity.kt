@@ -13,16 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
-import com.ec.shopeasy.api.response.ProductsResponse
 import com.ec.shopeasy.data.ProductCategories
+import com.ec.shopeasy.ui.adapters.CategoriesAdapter
+import com.ec.shopeasy.ui.adapters.OnListClickListener
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClickListener {
 
@@ -62,7 +60,14 @@ class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClick
 
         dataProvider = DataProvider()
         activityScope.launch {
-            val response = dataProvider.getProductsCategoriesAndProducts()
+            try {
+                categories = dataProvider.getProductsCategoriesAndProducts()
+                Log.i("PMR","catégories importées")
+                listMaker(categories)
+            } catch (e: Exception) {
+                error(e.message)
+            }
+            /**val response = dataProvider.getProductsCategoriesAndProducts()
             response.enqueue(object : Callback<ProductsResponse> {
                 override fun onResponse(call: Call<ProductsResponse>, response: Response<ProductsResponse>) {
                     // Fonction appelée en cas de succes
@@ -85,7 +90,7 @@ class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClick
                     // Fonction appelée en cas d'échec
                     error(t.message)
                 }
-            })
+            })**/
 
 
         }

@@ -10,15 +10,15 @@ import retrofit2.http.*
 interface Service {
 
     @GET("shops")
-    fun getShops() : Call<ShopsResponse>
+    suspend fun getShops() : ShopsResponse
 
     @GET("shops/{Id}")
-    fun getShop(@Path("Id") shopId : Int) : Call<ShopResponse>
+    suspend fun getShop(@Path("Id") shopId : Int) : ShopResponse
 
     @GET("shops/{Id}/sections")
     suspend fun getShopSections(@Path("Id") shopId : Int) : ShopSectionsResponse
 
     @GET("products")
-    fun getProducts() : Call<ProductsResponse>
+    suspend fun getProducts() : ProductsResponse
 
 }

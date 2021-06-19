@@ -1,14 +1,11 @@
-package com.ec.shopeasy.ui
+package com.ec.shopeasy.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
-import com.ec.shopeasy.data.Product
 import com.ec.shopeasy.data.Shop
 
 class ShopAdapter(
