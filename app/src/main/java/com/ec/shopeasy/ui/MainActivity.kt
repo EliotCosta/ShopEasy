@@ -15,6 +15,7 @@ import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
 import com.ec.shopeasy.api.response.ShopsResponse
 import com.ec.shopeasy.data.Shop
+import com.ec.shopeasy.productInfoApi.ProductInfoDataProvider
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +62,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             try {
                 var shops : List<Shop> = dataProvider.getShops()
                 Log.i("PMR", shops.toString())
+            } catch (e: Exception) {
+                error(e.message)
+            }
+        }
+
+        // Exemple d'info de produit
+        val productsInfosDataProvider = ProductInfoDataProvider()
+        activityScope.launch {
+            try {
+                var productInfo = productsInfosDataProvider.getProductInfo("3038350345004")
+                // Test image
+                //Picasso.get().load(productInfo.imageUrl).into(imageMain)
+                Log.i("PMR", productInfo.toString())
             } catch (e: Exception) {
                 error(e.message)
             }
