@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface Service {
-
+    @Headers("Content-Type: application/json")
     @GET("shops")
     suspend fun getShops() : ShopsResponse
 

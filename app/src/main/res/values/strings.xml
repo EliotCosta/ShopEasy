@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ShopEasy</string>
+    <string name="scanFail">Le scan a échoué, veuillez réésayer</string>
 </resources>

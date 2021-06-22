@@ -61,8 +61,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         activityScope.launch {
             try {
                 var shops : List<Shop> = dataProvider.getShops()
+                Log.i("PMR","ok")
                 Log.i("PMR", shops.toString())
             } catch (e: Exception) {
+                Log.i("PMR","pas ok")
                 error(e.message)
             }
         }
@@ -105,7 +107,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-        Log.i("EDPMR", sType)
+        Log.i("PMR", sType)
         return bStatut
         return true
 

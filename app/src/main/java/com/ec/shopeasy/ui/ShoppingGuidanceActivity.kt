@@ -1,38 +1,29 @@
 package com.ec.shopeasy.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.Image
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.view.View
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
-import com.ec.shopeasy.api.response.ShopSectionsResponse
-import com.ec.shopeasy.api.response.ShopsResponse
-import com.ec.shopeasy.data.ListeUser
-import com.ec.shopeasy.data.Product
-import com.ec.shopeasy.data.Shop
-import com.ec.shopeasy.data.ShopSection
+import com.ec.shopeasy.data.*
 import com.ec.shopeasy.shopping.ShoppingInstance
 import com.ec.shopeasy.shopping.ShoppingStep
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.Exception
-import java.lang.reflect.Type
 
 
 class ShoppingGuidanceActivity : AppCompatActivity() {
@@ -56,6 +47,10 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
     private lateinit var nextStepButton : Button
     private lateinit var stepText : TextView
     private lateinit var mapImg : ImageView
+
+    private lateinit var btnScan : Button
+    private lateinit var txtProd : TextView
+    private lateinit var imgProd : ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +78,9 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
         nextStepButton = findViewById(R.id.nextStepBtn)
         stepText = findViewById(R.id.stepText)
         mapImg = findViewById(R.id.mapImg)
+        btnScan = findViewById(R.id.tempBtnScan)
+        txtProd = findViewById(R.id.textInfoProduit)
+        imgProd = findViewById(R.id.imgInfos)
 
         loading(true)
 
@@ -110,7 +108,42 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
         nextStepButton.setOnClickListener {
             nextStep()
         }
+
+        btnScan.setOnClickListener {
+            scan()
+        }
     }
+
+
+    var scanLauncher =
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result?.data
+                val productInfos = gson.fromJson(data?.extras?.getString("productInfos"), ProductInfos::class.java)
+                handleCodeBarre(productInfos)
+            } else {
+                Toast.makeText(this, R.string.scanFail, Toast.LENGTH_LONG).show()
+            }
+    }
+
+    fun scan() {
+        val toScan: Intent = Intent(this@ShoppingGuidanceActivity, ScanActivity::class.java)
+        try {
+            scanLauncher.launch(toScan)
+        } catch (e: Exception) {
+            Log.e("PMRSCAN", e.message.toString())
+        }
+    }
+
+    fun handleCodeBarre(infos: ProductInfos) {
+        txtProd.text = "${infos.productNameFr} :\nNutriscore : ${infos.nutriScoreData.grade.toUpperCase()}\n" +
+                "Calories : ${infos.nutriments.energy} kcal pour 100g\n"
+
+        Picasso.get().load(infos.imageUrl).into(imgProd)
+        showInfos(true)
+
+    }
+
 
     fun loading(value : Boolean) {
         progress.isVisible = value
@@ -119,6 +152,18 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
     fun showMap(value: Boolean) {
         mapImg.isVisible = value
     }
+
+    fun showInfos(value: Boolean) {
+        if (value) {
+            txtProd.visibility= View.VISIBLE
+            imgProd.visibility= View.VISIBLE
+        } else {
+            txtProd.visibility= View.GONE
+            imgProd.visibility= View.GONE
+            // gone (contrairement à INVISIBLE) permet de disparaitre aux yeux du layout
+        }
+    }
+
 
     fun startNavigation() {
         // Starting navigation
@@ -129,6 +174,7 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
 
     fun showStepInfo() {
         // Show currentStep on screen
+        showInfos(false)
         when (currentStep.type) {
             ShoppingStep.GO_TO -> {
                 // Go to section step
@@ -162,14 +208,16 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
 
             // Empty product list
             val name = sp.getString("name", "name").toString()
-            var editor = sp.edit()
+            val editor = sp.edit()
             editor.putString(name, "{\"name\": \"${name}\", \"list\": []}")
             editor.commit()
 
             // Go to main activity
-            var nextAct: Intent = Intent(this@ShoppingGuidanceActivity, MainActivity::class.java)
+            val nextAct: Intent = Intent(this@ShoppingGuidanceActivity, MainActivity::class.java)
             startActivity(nextAct)
         }
 
     }
+
+
 }

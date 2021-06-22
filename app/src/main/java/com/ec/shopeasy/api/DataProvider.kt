@@ -1,19 +1,14 @@
 package com.ec.shopeasy.api
 
-import com.ec.shopeasy.api.response.ProductsResponse
-import com.ec.shopeasy.api.response.ShopResponse
-import com.ec.shopeasy.api.response.ShopSectionsResponse
-import com.ec.shopeasy.api.response.ShopsResponse
 import com.ec.shopeasy.data.ProductCategories
 import com.ec.shopeasy.data.Shop
 import com.ec.shopeasy.data.ShopSection
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class DataProvider {
 
-    var baseUrl : String = "http://10.0.2.2/shopeasy-api/"
+    var baseUrl : String = "http://192.168.1.22/shopeasy-api/"
     private var retrofit : Retrofit
     private var service  : Service
 
