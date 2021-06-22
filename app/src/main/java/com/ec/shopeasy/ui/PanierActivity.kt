@@ -54,7 +54,7 @@ class PanierActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_panier -> {
-                var nextAct: Intent = Intent(this@PanierActivity, ShoppingStartActivity::class.java)
+                var nextAct: Intent = Intent(this@PanierActivity, ChoixShopActivity::class.java)
                 startActivity(nextAct)
 
 

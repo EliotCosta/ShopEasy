@@ -46,11 +46,11 @@ class CategoriesActivity: AppCompatActivity(), View.OnClickListener, OnListClick
         gson=Gson()
 
         val bdl = this.intent.extras
-        //TODO passer le nom de l'utilisateur courant depuis l'activité prec
-        //name= bdl?.get("name") as String
-        name="Mathis"
-        editor.putString("name",name)
-        editor.commit()
+        name = sp.getString("name", "inconnu").toString()
+        Log.i("PMR", name)
+        //name="Mathis"
+        //editor.putString("name",name)
+        //editor.commit()
 
 
         val btn_panier = findViewById<Button>(R.id.btn_vers_liste)

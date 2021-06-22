@@ -212,8 +212,8 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
             editor.putString(name, "{\"name\": \"${name}\", \"list\": []}")
             editor.commit()
 
-            // Go to main activity
-            val nextAct: Intent = Intent(this@ShoppingGuidanceActivity, MainActivity::class.java)
+            // Go to home activity
+            val nextAct: Intent = Intent(this@ShoppingGuidanceActivity, HomeActivity::class.java)
             startActivity(nextAct)
         }
 

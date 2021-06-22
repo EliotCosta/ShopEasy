@@ -2,27 +2,29 @@ package com.ec.shopeasy.data
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductInfos (
-        @SerializedName("id")
+data class ProductInfos (@SerializedName("id")
     var id: String,
 
-        @SerializedName("product_name")
+    @SerializedName("product_name")
     var productName: String,
 
-        @SerializedName("product_name_fr")
+    @SerializedName("product_name_fr")
     var productNameFr: String,
 
-        @SerializedName("categories")
+    @SerializedName("categories")
     var categories: String,
 
-        @SerializedName("image_url")
+    @SerializedName("image_url")
     var imageUrl: String,
 
-        @SerializedName("nutriscore_data")
+    @SerializedName("nutriscore_data")
     var nutriScoreData: NutriScoreData,
 
-        @SerializedName("nutriments")
-    var nutriments: Nutriments
+    @SerializedName("nutriments")
+    var nutriments: Nutriments,
+
+    @SerializedName("allergens_from_ingredients")
+    var allergens: String
 )
 
 data class NutriScoreData (

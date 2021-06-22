@@ -4,81 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SignupActivity">
+    tools:context=".ui.HomeActivity">
 
-    <EditText
-        android:id="@+id/mdpConfirm"
+    <Button
+        android:id="@+id/btnPref"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="Confirmez le mot de passe"
-        android:inputType="textPassword"
+        android:text="Mes préférences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mdp2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPanier" />
 
-    <EditText
-        android:id="@+id/pseudo2"
+    <Button
+        android:id="@+id/btnPanier"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="Pseudo"
-        android:inputType="textPersonName"
+        android:text="Voir le panier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:text="Créer un compte"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_img2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnList" />
 
     <ImageView
-        android:id="@+id/item_img2"
+        android:id="@+id/item_img3"
         android:layout_width="252dp"
         android:layout_height="267dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <EditText
-        android:id="@+id/mdp2"
+    <TextView
+        android:id="@+id/welcomeText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="Mot de passe"
-        android:inputType="textPassword"
+        android:text="Bonjour"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pseudo2" />
+        app:layout_constraintTop_toBottomOf="@+id/item_img3" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnList"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Valider"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Liste de courses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mdpConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

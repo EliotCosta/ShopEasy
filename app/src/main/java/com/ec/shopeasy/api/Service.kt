@@ -1,9 +1,7 @@
 package com.ec.shopeasy.api
 
-import com.ec.shopeasy.api.response.ProductsResponse
-import com.ec.shopeasy.api.response.ShopResponse
-import com.ec.shopeasy.api.response.ShopSectionsResponse
-import com.ec.shopeasy.api.response.ShopsResponse
+import com.ec.shopeasy.api.response.*
+import com.ec.shopeasy.data.NutriScoreData
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -20,5 +18,17 @@ interface Service {
 
     @GET("products")
     suspend fun getProducts() : ProductsResponse
+
+    @POST("users")
+    suspend fun createUser(@Query("user") pseudo : String,@Query("password") pass : String) : UserResponse
+
+    @POST("authenticate")
+    suspend fun authenticate(@Query("user") pseudo : String,@Query("password") pass : String) : AuthenticateResponse
+
+    @GET("profile")
+    suspend fun getProfile(@Header("hash") hash : String) : UserResponse
+
+    @PUT("users")
+    suspend fun updateProfile(@Header("hash") hash : String, @Query("minNutriScorePreference") minNutriScorePreference : String, @Query("allergens") allergens : String) : UserResponse
 
 }

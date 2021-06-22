@@ -124,9 +124,9 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
                 // vers LoginActivity
 
                 // Intent explicite
-                var versCategoriesActivity: Intent = Intent(this@ChoixShopActivity, CategoriesActivity::class.java)
-                versCategoriesActivity.putExtras(bdl)
-                startActivity(versCategoriesActivity)
+                var nextAct: Intent = Intent(this@ChoixShopActivity, ShoppingStartActivity::class.java)
+                nextAct.putExtras(bdl)
+                startActivity(nextAct)
             }
         }
     }
@@ -143,9 +143,9 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
 
         bdl.putString("shop",shop.name)
 
-        var versCategoriesActivity: Intent = Intent(this@ChoixShopActivity, CategoriesActivity::class.java)
-        versCategoriesActivity.putExtras(bdl)
-        startActivity(versCategoriesActivity)
+        var nextAct: Intent = Intent(this@ChoixShopActivity, ShoppingStartActivity::class.java)
+        nextAct.putExtras(bdl)
+        startActivity(nextAct)
 
     }
 }
