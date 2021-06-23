@@ -36,10 +36,6 @@ class ShoppingStartActivity : AppCompatActivity(), View.OnClickListener, OnDSLis
 
         // Droidspeech Section (commandes vocales)
         // Initializing the droid speech and setting the listener
-
-
-        // Droidspeech Section (commandes vocales)
-        // Initializing the droid speech and setting the listener
         ds = DroidSpeech(applicationContext, null)
         ds.setOnDroidSpeechListener(this)
         ds.setShowRecognitionProgressView(false)

@@ -1,6 +1,8 @@
 package com.ec.shopeasy.ui
 
+import android.Manifest
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.Image
@@ -11,6 +13,7 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import com.ec.shopeasy.R
 import com.ec.shopeasy.api.DataProvider
@@ -19,6 +22,9 @@ import com.ec.shopeasy.shopping.ShoppingInstance
 import com.ec.shopeasy.shopping.ShoppingStep
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import com.vikramezhil.droidspeech.DroidSpeech
+import com.vikramezhil.droidspeech.OnDSListener
+import com.vikramezhil.droidspeech.OnDSPermissionsListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,7 +32,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
-class ShoppingGuidanceActivity : AppCompatActivity() {
+class ShoppingGuidanceActivity : AppCompatActivity(), OnDSListener, OnDSPermissionsListener {
     private val activityScope = CoroutineScope(
             SupervisorJob() + Dispatchers.Main
     )
@@ -52,10 +58,27 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
     private lateinit var txtProd : TextView
     private lateinit var imgProd : ImageView
 
+    private lateinit var ds: DroidSpeech
+    var lastTimeWorking: Long = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shopping_guidance)
+
+        //*** Forcing de la permission qui permet d'activer la commande vocale
+        ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECORD_AUDIO),
+                1
+        )
+
+        // Droidspeech Section (commandes vocales)
+        // Initializing the droid speech and setting the listener
+        ds = DroidSpeech(applicationContext, null)
+        ds.setOnDroidSpeechListener(this)
+        ds.setShowRecognitionProgressView(false)
+        ds.setOneStepResultVerify(false)
 
         dataProvider = DataProvider()
 
@@ -103,6 +126,18 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
                 Log.i("PMR", "Error : ${e.message}")
             }
         }
+
+        // Droidspeech Section (commandes vocales)
+        // Initializing the droid speech and setting the listener
+        ds = DroidSpeech(applicationContext, null)
+        ds.setOnDroidSpeechListener(this)
+        ds.setShowRecognitionProgressView(false)
+        ds.setOneStepResultVerify(false)
+
+
+        // Starting droid speech
+        //displayDroidSpeech.setContinuousSpeechRecognition(true);
+        ds.startDroidSpeechRecognition()
 
         // Set button listener
         nextStepButton.setOnClickListener {
@@ -217,6 +252,70 @@ class ShoppingGuidanceActivity : AppCompatActivity() {
             startActivity(nextAct)
         }
 
+    }
+
+    //Interface qui gère la commande vocale
+
+    override fun onDroidSpeechRmsChanged(rmsChangedValue: Float) {
+        // Permet de visualiser des valeurs en nombre à chaque tonalité/ fréquence de la voix détécté
+        Log.i(ContentValues.TAG, "Rms change value = $rmsChangedValue")
+        lastTimeWorking = System.currentTimeMillis()
+    }
+
+    override fun onDroidSpeechSupportedLanguages(currentSpeechLanguage: String?, supportedSpeechLanguages: MutableList<String>?) {
+        Log.i(
+                ContentValues.TAG,
+                "Supported speech languages = " + supportedSpeechLanguages.toString()
+        )
+        if (supportedSpeechLanguages!!.contains("fr-FR")) {
+            // Setting the droid speech preferred language as french
+            // Définir la langue préférée du discours de droid speech en français
+            ds.setPreferredLanguage("fr-FR")
+        }
+        Log.i(ContentValues.TAG, "Current speech language = $currentSpeechLanguage")
+    }
+
+    override fun onDroidSpeechError(errorMsg: String?) {
+        // Speech error
+        // Permet d'afficher s'il y a une erreur
+        //Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        Log.i(ContentValues.TAG, "Error $errorMsg")
+        ds.closeDroidSpeechOperations()
+    }
+
+    override fun onDroidSpeechClosedByUser() {
+
+    }
+
+    override fun onDroidSpeechLiveResult(liveSpeechResult: String?) {
+
+    }
+
+    override fun onDroidSpeechFinalResult(finalSpeechResult: String?) {
+        // Setting the final speech result
+        //Possibilité de modifier les mots-clés
+        //Définir un comportement pour chaque mot-clé
+        if (finalSpeechResult.equals("Suivant", ignoreCase = true)
+                || finalSpeechResult!!.toLowerCase().contains("suivant")
+        ) {
+            nextStep()
+        } else if (finalSpeechResult.equals("Scan", ignoreCase = true)
+                || finalSpeechResult!!.toLowerCase().contains("scan")
+        ) {
+            scan()
+        }
+    }
+
+    override fun onDroidSpeechAudioPermissionStatus(audioPermissionGiven: Boolean, errorMsgIfAny: String?) {
+        if (audioPermissionGiven) {
+            ds.startDroidSpeechRecognition()
+        } else {
+            if (errorMsgIfAny != null) {
+                // Permissions error
+                Toast.makeText(this, errorMsgIfAny, Toast.LENGTH_LONG).show()
+            }
+            ds.closeDroidSpeechOperations()
+        }
     }
 
 
