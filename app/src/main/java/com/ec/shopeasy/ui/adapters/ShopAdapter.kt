@@ -28,6 +28,9 @@ class ShopAdapter(
         val item = dataset[position]
         holder.textView.text = item.name
         //holder.imgView.setImageResource(item.image)
+        holder.textView.setOnClickListener {
+            shopClickListener.onShopClicked(holder.textView, position)
+        }
 
     }
 

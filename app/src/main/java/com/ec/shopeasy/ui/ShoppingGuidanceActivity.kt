@@ -89,7 +89,7 @@ class ShoppingGuidanceActivity : AppCompatActivity(), OnDSListener, OnDSPermissi
         productCard = gson.fromJson(sp.getString(name, "{\"name\": \"\", \"list\": []}"), ListeUser::class.java).list
 
         // Exemple de pannier
-        shop = Shop(1, "V2", "maps/1.jpg", 1f)
+        //shop = Shop(1, "V2", "maps/1.jpg", 1f)
         //shopSections = listOf(ShopSection(1,1,"Fruits",0f,2f, listOf(1,2)), ShopSection(2,1,"toto",1f,1f,listOf(3)))
         //productCard = listOf(Product(1, "Bananes"), Product(2, "Pommes"), Product(3, "Pull to toto"))
 
@@ -172,7 +172,11 @@ class ShoppingGuidanceActivity : AppCompatActivity(), OnDSListener, OnDSPermissi
 
     fun handleCodeBarre(infos: ProductInfos) {
         txtProd.text = "${infos.productNameFr} :\nNutriscore : ${infos.nutriScoreData.grade.toUpperCase()}\n" +
-                "Calories : ${infos.nutriments.energy} kcal pour 100g\n"
+                "Calories : ${infos.nutriments.energy} ${infos.nutriments.energyUnit} pour 100g\n" +
+                "Matières grasses : ${infos.nutriments.fat} ${infos.nutriments.fateUnit} pour 100g\n" +
+                "Glucides : ${infos.nutriments.sugars} ${infos.nutriments.sugarsUnit} pour 100g\n" +
+                "Protéines : ${infos.nutriments.proteins} ${infos.nutriments.proteinsUnit} pour 100g\n" +
+                "\nAllergènes : ${infos.allergens}\n"
 
         Picasso.get().load(infos.imageUrl).into(imgProd)
         showInfos(true)

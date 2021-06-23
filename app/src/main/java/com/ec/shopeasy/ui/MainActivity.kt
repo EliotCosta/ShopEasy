@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
         // Exemple d'appel API
-        dataProvider = DataProvider()
+        /**dataProvider = DataProvider()
 
         activityScope.launch {
             try {
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             } catch (e: Exception) {
                 error(e.message)
             }
-        }
+        }**/
 
     }
 

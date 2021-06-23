@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ec.shopeasy.R
@@ -49,8 +50,11 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
         editor = sp.edit()
         gson = Gson()
 
+        // Btn pour passer la choix du magasin, désactivé par défaut
         btn = findViewById<Button>(R.id.btn)
         btn.setOnClickListener(this)
+        btn.isVisible = false
+
         image = findViewById<ImageView>(R.id.imageView)
         Picasso.get().load("https://i.ytimg.com/vi/A1Uv7eok7FU/maxresdefault.jpg").into(image)
 
@@ -64,36 +68,7 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
             } catch (e: Exception) {
                 error(e.message)
             }
-            /**val response = dataProvider.getShops()
-            response.enqueue(object : Callback<ShopsResponse> {
-                override fun onResponse(call: Call<ShopsResponse>, response: Response<ShopsResponse>) {
-                    // Fonction appelée en cas de succes
-                    val data : ShopsResponse? = response.body()
-                    Log.i("PMR", "API Response : " + response.raw().toString())
-
-                    if (data?.success == true) {
-                        // test si l'api renvoie bien success = true, si ce n'est pas le cas, il y a un problème de requete
-                        shops = data.shops
-                        Log.i("PMR", shops.toString())
-                        listMaker(shops)
-
-                    } else {
-                        error("Network error")
-                    }
-
-                }
-
-                override fun onFailure(call: Call<ShopsResponse>, t: Throwable) {
-                    // Fonction appelée en cas d'échec
-                    error(t.message)
-                }
-            })**/
-
-
         }
-
-
-
     }
 
     fun listMaker(dataset: List<Shop>) {
@@ -108,43 +83,26 @@ class ChoixShopActivity : AppCompatActivity(), View.OnClickListener, OnShopClick
         Toast.makeText(this@ChoixShopActivity, "${message}", Toast.LENGTH_SHORT).show()
     }
 
-
-
-
-
-
     override fun onClick(v: View) {
 
         when (v.id) {
             R.id.btn -> {
-
-                val bdl = Bundle()
-                //bdl.putString("json", )
-
-                // vers LoginActivity
-
                 // Intent explicite
                 var nextAct: Intent = Intent(this@ChoixShopActivity, ShoppingStartActivity::class.java)
-                nextAct.putExtras(bdl)
                 startActivity(nextAct)
             }
         }
     }
 
     override fun onShopClicked(v: View, pos: Int) {
-
-        val bdl = Bundle()
         val shop = shops[pos]
 
         //Modification des shared preferences
 
-        editor.putString("shop", shop.name)
+        editor.putString("shop", gson.toJson(shop))
         editor.commit()
 
-        bdl.putString("shop",shop.name)
-
         var nextAct: Intent = Intent(this@ChoixShopActivity, ShoppingStartActivity::class.java)
-        nextAct.putExtras(bdl)
         startActivity(nextAct)
 
     }
